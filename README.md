@@ -1,6 +1,6 @@
 # 🐍 Kriptografi Klasik: Transposition Cipher (Implementasi Python)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-34d399.svg)](../LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-34d399.svg)](LICENSE)
 [![Python: 3.8+](https://img.shields.io/badge/Python-3.8%2B-38bdf8.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![UDINUS](https://img.shields.io/badge/UDINUS-Teknik%20Informatika-a855f7.svg)](https://dinus.ac.id/)
 [![Tests](https://img.shields.io/badge/Tests-100%25%20Passed-34d399.svg)](main.py)
@@ -147,7 +147,7 @@ KOMPLEKSITAS:
 
 ## 📜 Lisensi
 
-Seluruh kode dalam paket ini dirilis di bawah lisensi open-source **[MIT License](../LICENSE)**.
+Seluruh kode dalam paket ini dirilis di bawah lisensi open-source **[MIT License](LICENSE)**.
 
 ```text
 MIT License

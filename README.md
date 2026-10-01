@@ -140,8 +140,7 @@ KOMPLEKSITAS:
 
 * **Kelompok**: 2
 * **Materi**: Transposition Cipher (5 Varian Inti & Analisis Modern)
-* **Dokumen Presentasi HTML**: `../presentasi_kriptografi.html`
-* **Dokumen Presentasi PDF**: `../presentasi_kriptografi.pdf` (38 Halaman Pas 16:9)
+* **Basis Kode**: Python 3 (Standard Library Murni)
 
 ---
 

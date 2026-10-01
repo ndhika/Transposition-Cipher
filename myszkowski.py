@@ -2,7 +2,7 @@
 =============================================================================
 MODUL           : myszkowski.py
 VARIAN          : 4 — Myszkowski Transposition Cipher (Aturan Huruf Kembar)
-MATA KULIAH     : Kriptografi Klasik — Teknik Informatika UDINUS
+TOPIK           : Kriptografi Klasik — Transposition Cipher
 KELOMPOK        : 2 (Transposition Cipher)
 =============================================================================
 Dokumentasi Batch:

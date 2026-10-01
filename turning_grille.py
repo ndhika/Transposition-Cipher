@@ -2,7 +2,7 @@
 =============================================================================
 MODUL           : turning_grille.py
 VARIAN          : 5 — Turning Grille (Fleissner Grille / Stensil Berputar)
-MATA KULIAH     : Kriptografi Klasik — Teknik Informatika UDINUS
+TOPIK           : Kriptografi Klasik — Transposition Cipher
 KELOMPOK        : 2 (Transposition Cipher)
 =============================================================================
 Dokumentasi Batch:
@@ -125,7 +125,7 @@ def turning_grille_encrypt(
     =============================================================================
     """
     if initial_holes is None:
-        # Default lubang standar kuliah Udinus Kelompok 2
+        # Default lubang standar Kelompok 2
         initial_holes = [(0, 0), (0, 1), (0, 2), (1, 1)]
 
     if not validate_fleissner_stencil(initial_holes, n):

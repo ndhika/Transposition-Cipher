@@ -2,7 +2,7 @@
 =============================================================================
 MODUL           : route_cipher.py
 VARIAN          : 3 — Route Cipher (Lintasan Spiral Searah Jarum Jam)
-MATA KULIAH     : Kriptografi Klasik — Teknik Informatika UDINUS
+TOPIK           : Kriptografi Klasik — Transposition Cipher
 KELOMPOK        : 2 (Transposition Cipher)
 =============================================================================
 Dokumentasi Batch:

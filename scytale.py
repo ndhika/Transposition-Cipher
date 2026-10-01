@@ -2,7 +2,7 @@
 =============================================================================
 MODUL           : scytale.py
 VARIAN          : 1 — Scytale Cipher (Tongkat Sparta Kuno)
-MATA KULIAH     : Kriptografi Klasik — Teknik Informatika UDINUS
+TOPIK           : Kriptografi Klasik — Transposition Cipher
 KELOMPOK        : 2 (Transposition Cipher)
 =============================================================================
 Dokumentasi Batch:

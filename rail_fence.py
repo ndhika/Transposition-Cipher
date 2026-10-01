@@ -2,7 +2,7 @@
 =============================================================================
 MODUL           : rail_fence.py
 VARIAN          : 2 — Rail Fence Cipher (Zig-Zag Transposition)
-MATA KULIAH     : Kriptografi Klasik — Teknik Informatika UDINUS
+TOPIK           : Kriptografi Klasik — Transposition Cipher
 KELOMPOK        : 2 (Transposition Cipher)
 =============================================================================
 Dokumentasi Batch:

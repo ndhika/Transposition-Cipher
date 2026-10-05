@@ -2,7 +2,7 @@
 =============================================================================
 MODUL           : turning_grille.py
 VARIAN          : 5 — Turning Grille (Fleissner Grille / Stensil Berputar)
-MATA KULIAH     : Kriptografi Klasik — Teknik Informatika UDINUS
+TOPIK           : Kriptografi Klasik — Transposition Cipher
 KELOMPOK        : 2 (Transposition Cipher)
 =============================================================================
 Dokumentasi Batch:

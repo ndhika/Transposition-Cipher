@@ -2,7 +2,7 @@
 =============================================================================
 MODUL           : advanced.py
 DESKRIPSI       : Analisis Kriptografi Lanjutan & Kaitan Modern
-MATA KULIAH     : Kriptografi Klasik — Teknik Informatika UDINUS
+TOPIK           : Kriptografi Klasik — Transposition Cipher
 KELOMPOK        : 2 (Transposition Cipher)
 =============================================================================
 Dokumentasi Batch:

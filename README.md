@@ -1,101 +1,50 @@
-# 🐍 Kriptografi Klasik: Transposition Cipher (Implementasi Python)
+# 🐍 Kriptografi Klasik: Transposition Cipher Suite
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-34d399.svg)](../LICENSE)
+<div align="center">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-34d399.svg)](LICENSE)
 [![Python: 3.8+](https://img.shields.io/badge/Python-3.8%2B-38bdf8.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![UDINUS](https://img.shields.io/badge/UDINUS-Teknik%20Informatika-a855f7.svg)](https://dinus.ac.id/)
 [![Tests](https://img.shields.io/badge/Tests-100%25%20Passed-34d399.svg)](main.py)
 
-> **Mata Kuliah** : Kriptografi  
-> **Program Studi**: S1 Teknik Informatika, Fakultas Ilmu Komputer  
-> **Institusi**    : Universitas Dian Nuswantoro (UDINUS)  
-> **Kelompok**     : 2 (Transposition Cipher)
+**Implementasi Perangkat Lunak Kriptografi Klasik & Laboratorium Kriptanalisis**  
+*Kelompok 2 — Teknik Informatika Universitas Dian Nuswantoro (UDINUS)*
+
+</div>
 
 ---
 
-## 📌 Ringkasan Proyek
+## 📌 Overview
 
-Repositori ini berisi implementasi perangkat lunak berbasis **Python 3** untuk menyimulasikan seluruh materi perkuliahan yang tercantum pada **Slide Presentasi Transposition Cipher (38 Slide)**.
+**Transposition Cipher Suite** adalah pustaka Python modular berbasis *zero-dependency* untuk menyimulasikan seluruh materi perkuliahan *Transposition Cipher*. Tidak seperti cipher substitusi yang mengganti karakter, cipher transposisi mengubah posisi spasial karakter sambil menjaga distribusi frekuensi huruf.
 
-Kode ditulis dengan standar rekayasa perangkat lunak profesional:
-- **Fleksibilitas Ukuran & Parameter Dinamis**: Seluruh 5 varian *cipher* mendukung panjang teks masukan berapa pun dan parameter ukuran bebas (diameter, jumlah rel, dimensi grid $R \times C$, kata kunci sembarang, serta ukuran stensil Fleissner $N \times N$ genap berapa saja).
-- **Batch Documentation Headers**: Setiap modul dan fungsi dilengkapi blok dokumentasi terstruktur yang mencakup Kategori, Dasar Teori Kriptografis, Formula Matematika, Penjelasan Parameter, Tipe Kembalian (Type Hints), Kompleksitas Waktu & Ruang ($O$), serta Contoh Penggunaan.
-- **Tanpa Dependency Eksternal**: 100% menggunakan Python Standard Library (`math`, `sys`, `typing`, `time`), sehingga dapat langsung dijalankan di semua sistem operasi (Windows, Linux, macOS) tanpa perlu instalasi `pip`.
-- **Dukungan Terminal UTF-8 & ANSI Safe**: Menampilkan visualisasi matriks 2D, rel zig-zag, rute spiral, dan stensil 4 rotasi dengan warna highlight beresolusi tinggi.
+### Key Highlights
+* **Zero External Dependencies**: 100% menggunakan Standard Library Python (`math`, `sys`, `typing`, `time`). Langsung berjalan di Windows, Linux, dan macOS tanpa `pip install`.
+* **Fleksibilitas Ukuran & Parameter Dinamis**: Seluruh 5 varian *cipher* mendukung panjang teks masukan berapa pun dan parameter ukuran bebas (diameter, jumlah rel, dimensi grid $R \times C$, kata kunci sembarang, serta ukuran stensil Fleissner $N \times N$ genap berapa saja).
+* **Terminal Matrix Visualizer**: Visualisasi matriks 2D ASCII, rel gelombang *zig-zag*, rute spiral melingkar, dan stensil 4 rotasi dengan pewarnaan ANSI beresolusi tinggi.
+* **Mathematical & Cryptanalytic Rigor**: Dilengkapi analisis Index of Coincidence (IoC) Friedman, matriks permutasi ortogonal ($P_\sigma \cdot P_\sigma^T = I$), Double Transposition, serta jembatan difusi modern (AES `ShiftRows` dan DES `P-Box`).
 
 ---
 
-## 🗂️ Struktur Direktori
+## 🖥️ Interactive CLI Preview
+
+Jalankan suite terminal interaktif untuk menguji sandi dengan input buatan sendiri atau mengeksekusi uji verifikasi otomatis:
 
 ```text
-.
-├── __init__.py           # Inisialisasi paket dan eksposur modul publik
-├── utils.py              # Sanitasi teks alfabetis, padding dummy 'X', pewarnaan ANSI, & visualizer matriks ASCII
-├── scytale.py            # Varian 1: Scytale Cipher (Silinder Sparta Kuno - Diameter d & Baris Dinamis)
-├── rail_fence.py         # Varian 2: Rail Fence Cipher (Zig-Zag Gelombang Periodik - n Rel Bebas)
-├── route_cipher.py       # Varian 3: Route Cipher (Lintasan Spiral Clockwise - Dimensi R x C Bebas)
-├── myszkowski.py         # Varian 4: Myszkowski Cipher (Keyword Tie-Breaker Ranking - Kata Kunci Bebas)
-├── turning_grille.py     # Varian 5: Turning Grille (Fleissner Grille - Stensil N x N Genap Bebas)
-├── advanced.py           # Teori Lanjutan: Double Transposition, Matriks Permutasi Ortogonal (P*P^T=I), IoC, Frekuensi A-Z, AES/DES
-├── main.py               # Master CLI Interaktif & Suite Pengujian Otomatis
-└── README.md             # Buku Panduan Penggunaan & Dokumentasi
+$ python main.py
+
+=============================================================================
+             KRIPTOGRAFI KLASIK: TRANSPOSITION CIPHER SUITE
+=============================================================================
+                 SIMULASI & DEMO INTERAKTIF · KELOMPOK 2
+=============================================================================
+
+MENU UTAMA:
+  1. Jalankan Uji Otomatis Kasus Sandi (Automated Test Suite)
+  2. Simulasi Praktikum Interaktif (Scytale, Rail Fence, Route, Myszkowski, Grille)
+  3. Laboratorium Kriptanalisis (Index of Coincidence) & Kaitan Modern
+  0. Keluar dari Program
 ```
-
----
-
-## 🚀 Cara Menjalankan Program
-
-### 1. Menjalankan Master CLI Interaktif
-
-Buka terminal pada direktori `python/`, lalu jalankan:
-
-```bash
-python main.py
-```
-
-Menu utama akan menampilkan 3 opsi utama:
-1. **Jalankan Uji Otomatis Kasus Slide Presentasi** (memverifikasi kebenaran matematika 5 cipher terhadap slide).
-2. **Simulasi Praktikum Interaktif** (memasukkan plaintext dan kunci kustom dengan visualisasi step-by-step).
-3. **Laboratorium Kriptanalisis (Index of Coincidence) & Kaitan Modern (AES/DES)**.
-
----
-
-### 2. Menjalankan Modul Tertentu Secara Mandiri
-
-Setiap berkas `.py` dapat dieksekusi secara independen untuk melihat demo step-by-step khusus varian tersebut:
-
-```bash
-# Uji Varian 1: Scytale
-python scytale.py
-
-# Uji Varian 2: Rail Fence
-python rail_fence.py
-
-# Uji Varian 3: Route Cipher
-python route_cipher.py
-
-# Uji Varian 4: Myszkowski
-python myszkowski.py
-
-# Uji Varian 5: Turning Grille
-python turning_grille.py
-
-# Uji Analisis Lanjutan & Kriptanalisis
-python advanced.py
-```
-
----
-
-## 📊 Matriks Kasus Uji Slide Presentasi (100% Verifikasi)
-
-| No | Varian Cipher | Plaintext Masukan | Kunci | Output Ciphertext Terverifikasi | Status Dekripsi |
-| :---: | :--- | :--- | :--- | :--- | :---: |
-| 1 | **Scytale** | `HELPMEARRIVE` | $d = 3$ baris | `HMREEILAVPRE` | **PULIH SEMPURNA** |
-| 2 | **Rail Fence** | `KRIPTOGRAFI` | $n = 3$ rel | `KTARPORFIGI` | **PULIH SEMPURNA** |
-| 3 | **Route Cipher** | `SERANGANDIBAWAH` | Grid $4 \times 4$ (Spiral) | `SERANAXHAWDNGABI` | **PULIH SEMPURNA** |
-| 4 | **Myszkowski** | `WE ARE DISCOVERED` | `TOMATO` | `ROXACDEDSEEXWEIVRX` | **PULIH SEMPURNA** |
-| 5 | **Turning Grille**| `SENDTROOPSASAPXX` | Stensil 4 Rotasi | `SENTADROPXPOXSAS` | **PULIH SEMPURNA** |
-| 6 | **Aljabar Linier**| `['A', 'B', 'C', 'D']` | Matriks $P_\sigma$ | $P_\sigma \cdot P_\sigma^T = I$ (Ortogonal) | **PULIH SEMPURNA** |
-| 7 | **Kriptanalisis**| Sampel Teks Panjang | Uji IoC Friedman | $IC \approx 0.067 - 0.068$ (Transposisi Terbukti) | **TERDIAGNOSA AKURAT** |
 
 ---
 
@@ -113,59 +62,149 @@ Seluruh varian dalam proyek ini tidak terpaku pada satu ukuran statis, melainkan
 
 ---
 
-## 📖 Dokumentasi Batch & Arsitektur Fungsi
+## 🎯 5 Core Cipher Variants
 
-Setiap fungsi inti dirancang dengan spesifikasi formal:
+| Cipher | Geometric Model | Secret Key | Characteristic Mechanism |
+| :--- | :--- | :--- | :--- |
+| **Scytale** | $d \times m$ Cylinder Grid | Rod Diameter $d$ (Rows) | Ancient Spartan parchment wrapped around a wooden rod. Written horizontally, extracted vertically. |
+| **Rail Fence** | Triangular Zig-Zag Wave | Rail Depth $n$ | Bounces periodically across $n$ rails with period $T = 2(n - 1)$. Characters extracted rail by rail. |
+| **Route Cipher** | $R \times C$ Dynamic Grid | Clockwise Spiral Route | Text is populated row-by-row and extracted along an inward spiral path starting at $(0,0)$. |
+| **Myszkowski** | Columnar Tie-Breaker Grid | Keyword String | Permits repeated keyword letters. Unique ranks read vertically ($\downarrow$); duplicate ranks read horizontally ($\rightarrow$). |
+| **Turning Grille** | $N \times N$ Fleissner Stencil | 4 Collision-Free Rotations | Stencil is rotated 4 times by 90° ($0^\circ, 90^\circ, 180^\circ, 270^\circ$). All $N^2$ cells filled without collision. |
 
-```python
-"""
-=============================================================================
-FUNGSI / METODE : scytale_encrypt
-KATEGORI        : Algoritma Enkripsi Transposisi Silinder
-DASAR TEORI     : Merepresentasikan lilitan pita pada tongkat kayu sebagai grid
-                  2D berukuran d baris x m kolom. Pesan asli ditulis mendatar
-                  per baris, lalu diekstraksi tegak lurus per kolom ke bawah.
------------------------------------------------------------------------------
-FORMULA MATEMATIKA:
-    d = kunci (jumlah baris / keliling silinder)
-    m = ceil(|P| / d) (jumlah kolom / panjang tongkat)
-    
-    Pemetaan Indeks Enkripsi:
-    Grid[r][c] = P[(r * m) + c]
-    Ciphertext: C[(c * d) + r] = Grid[r][c]
+---
 
-PARAMETER:
-    - plaintext (str): Pesan asli yang akan dienkripsi.
-    - key_d (int): Kunci diameter tongkat (d >= 2).
-    - verbose (bool): Tampilkan visualisasi matriks terminal.
+## 🔬 Cryptanalysis & Modern Diffusion
 
-OUTPUT / RETURN:
-    - Tuple[str, List[List[str]]]: (ciphertext, matriks_konseptual)
+### 1. Index of Coincidence (IoC)
+William F. Friedman's quantitative test measures the probability that two randomly selected letters from a ciphertext are identical:
 
-KOMPLEKSITAS:
-    - Waktu : O(|P|)
-    - Ruang : O(d * m)
-=============================================================================
-"""
+$$IC = \frac{\sum_{i=A}^Z f_i (f_i - 1)}{N(N - 1)}$$
+
+* **Natural Language (ID/EN)**: $IC \approx 0.065 - 0.068$
+* **Transposition Cipher**: $IC \approx 0.065 - 0.068$ *(Letter frequencies remain unaltered!)*
+* **Polyalphabetic Substitution (e.g. Vigenère)**: $IC \approx 0.038 - 0.042$ *(Frequencies flattened)*
+
+### 2. Orthogonal Permutation Matrix
+Every spatial transposition of $N$ characters corresponds to an $N \times N$ binary orthogonal permutation matrix $P_\sigma$. Because $P_\sigma$ is orthogonal:
+
+$$P_\sigma^{-1} = P_\sigma^T \implies \vec{x} = P_\sigma^T \cdot \vec{y}$$
+
+Decryption is performed simply by transposing the matrix, eliminating the need for matrix inversion algorithms.
+
+### 3. Shannon Diffusion in Modern Ciphers
+* **AES `ShiftRows` (FIPS 197)**: Cyclically rotates rows of a $4 \times 4$ state array by 0, 1, 2, and 3 bytes.
+* **DES `P-Box` (FIPS 46-3)**: 32-bit spatial bit permutation dispersing S-box outputs into subsequent Feistel rounds.
+
+---
+
+## 🚀 Quickstart
+
+### Prerequisites
+* Python 3.8 or newer.
+
+### Installation & Execution
+
+```bash
+# Clone repository
+git clone https://github.com/ndhika/Transposition-Cipher.git
+
+# Enter project directory
+cd Transposition-Cipher
+
+# Launch interactive CLI
+python main.py
+```
+
+### Running Individual Module Demos
+
+Each cipher module is fully standalone and can be executed independently:
+
+```bash
+python scytale.py         # Spartan Scytale demo
+python rail_fence.py      # Rail Fence zig-zag demo
+python route_cipher.py    # Route spiral demo
+python myszkowski.py      # Myszkowski duplicate-key demo
+python turning_grille.py  # Fleissner 4-rotation stencil demo
+python advanced.py        # Permutation matrix, Double Transposition & IoC cryptanalysis demo
 ```
 
 ---
 
-## 👥 Informasi Kelompok
+## 💻 Python API Usage
 
-* **Kelompok**: 2
-* **Materi**: Transposition Cipher (5 Varian Inti & Analisis Modern)
-* **Dokumen Presentasi HTML**: `../presentasi_kriptografi.html`
-* **Dokumen Presentasi PDF**: `../presentasi_kriptografi.pdf` (38 Halaman Pas 16:9)
+All ciphers can be imported and integrated directly into your own Python applications:
+
+```python
+from scytale import scytale_encrypt, scytale_decrypt
+from rail_fence import rail_fence_encrypt, rail_fence_decrypt
+from advanced import calculate_index_of_coincidence, diagnose_ciphertext_type
+
+# 1. Scytale Cipher
+ct, _ = scytale_encrypt("HELPMEARRIVE", key_d=3)
+pt, _ = scytale_decrypt(ct, key_d=3)
+# ct -> "HMREEILAVPRE", pt -> "HELPMEARRIVE"
+
+# 2. Rail Fence Cipher
+ct_rf, _ = rail_fence_encrypt("KRIPTOGRAFI", num_rails=3)
+pt_rf, _ = rail_fence_decrypt(ct_rf, num_rails=3)
+# ct_rf -> "KTARPORFIGI", pt_rf -> "KRIPTOGRAFI"
+
+# 3. Cryptanalysis Diagnosis
+ic_score = calculate_index_of_coincidence(ct)
+print(f"IC Score: {ic_score:.4f}")  # ~0.068 (Diagnosed as Transposition)
+```
 
 ---
 
-## 📜 Lisensi
+## 🧪 Verification Matrix
 
-Seluruh kode dalam paket ini dirilis di bawah lisensi open-source **[MIT License](../LICENSE)**.
+Automated unit tests validate 100% mathematical correctness across all ciphers:
+
+```text
+================================================================================
+KASUS UJI SLIDE                  | TARGET CIPHER        | HASIL OUTPUT         | STATUS
+--------------------------------------------------------------------------------
+Varian 1: Scytale (d=3)          | HMREEILAVPRE         | HMREEILAVPRE         | [ PASS OK ]
+Varian 2: Rail Fence (n=3)       | KTARPORFIGI          | KTARPORFIGI          | [ PASS OK ]
+Varian 3: Route Spiral (4x4)     | SERANAXHAWDNGABI     | SERANAXHAWDNGABI     | [ PASS OK ]
+Varian 4: Myszkowski (TOMATO)    | ROXACDEDSEEXWEIVRX   | ROXACDEDSEEXWEIVRX   | [ PASS OK ]
+Varian 5: Turning Grille (4x4)   | SENTADROPXPOXSAS     | SENTADROPXPOXSAS     | [ PASS OK ]
+Aljabar: Ortogonal P*P^T=I       | ['A', 'B', 'C', 'D'] | ['A', 'B', 'C', 'D'] | [ PASS OK ]
+Analisis: IoC (~0.068) & AES     | Shift OK             | Shift OK             | [ PASS OK ]
+================================================================================
+>>> SELURUH PENGUJIAN 100% SUKSES DENGAN HASIL MATEMATIS PERSISI! <<<
+```
+
+---
+
+## 🗂️ Project Structure
+
+```text
+.
+├── LICENSE             # MIT License
+├── README.md           # Project documentation
+├── .gitignore          # Git ignore patterns
+├── __init__.py         # Package entrypoint with fallback import
+├── utils.py            # Sanitization, padding, and ANSI table visualizer
+├── scytale.py          # Scytale Cipher implementation
+├── rail_fence.py       # Rail Fence Cipher implementation
+├── route_cipher.py     # Route (Spiral) Cipher implementation
+├── myszkowski.py       # Myszkowski Cipher implementation
+├── turning_grille.py   # Turning Grille Cipher implementation
+├── advanced.py         # Linear algebra & cryptanalysis engine
+└── main.py             # Interactive CLI & automated test runner
+```
+
+---
+
+## 📜 License
+
+This project is licensed under the **[MIT License](LICENSE)**.
 
 ```text
 MIT License
-Copyright (c) 2026 Kelompok 2 — Teknik Informatika Universitas Dian Nuswantoro (UDINUS)
+Copyright (c) 2026 Kelompok 2
 ```
-Bebas digunakan untuk keperluan praktikum, tugas perkuliahan, maupun riset lanjutan kriptografi.
+
+Feel free to use, modify, and distribute this codebase for academic, research, or personal projects.

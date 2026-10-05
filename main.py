@@ -2,7 +2,7 @@
 =============================================================================
 PROGRAM UTAMA   : main.py
 DESKRIPSI       : CLI Interaktif & Demo Otomatis Praktikum Kriptografi Klasik
-MATA KULIAH     : Kriptografi Klasik — Teknik Informatika UDINUS
+TOPIK           : Kriptografi Klasik — Transposition Cipher
 KELOMPOK        : 2 (Transposition Cipher)
 =============================================================================
 Dokumentasi Batch:
@@ -45,11 +45,9 @@ from advanced import (
 def print_main_banner():
     banner = f"""
 {BOLD}{PURPLE}=============================================================================
-      KULIAH KRIPTOGRAFI KLASIK · PROGRAM STUDI TEKNIK INFORMATIKA
-                  UNIVERSITAS DIAN NUSWANTORO (UDINUS)
+             KRIPTOGRAFI KLASIK: TRANSPOSITION CIPHER SUITE
 =============================================================================
-           DEMO PRAKTIKUM & SIMULASI: TRANSPOSITION CIPHER
-                            KELOMPOK 2
+                 SIMULASI & DEMO INTERAKTIF · KELOMPOK 2
 ============================================================================={RESET}
 """
     print(banner)
@@ -314,7 +312,7 @@ def main():
             cryptanalysis_lab()
             input(f"\n{DIM}Tekan [Enter] untuk kembali ke Menu Utama...{RESET}")
         elif pilihan == '0':
-            print(f"\n{BOLD}{CYAN}Terima kasih telah menggunakan program simulasi Kriptografi Kelompok 2 UDINUS!{RESET}\n")
+            print(f"\n{BOLD}{CYAN}Terima kasih telah menggunakan program simulasi Kriptografi Kelompok 2!{RESET}\n")
             break
         else:
             print(f"\n{ROSE}Pilihan tidak valid! Silakan masukkan 0, 1, 2, atau 3.{RESET}")

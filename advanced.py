@@ -7,10 +7,10 @@ KELOMPOK        : 2 (Transposition Cipher)
 =============================================================================
 Dokumentasi Batch:
 Modul ini mengimplementasikan konsep teoritis dan matematis mendalam yang
-diajarkan pada Slide 30-35 materi kuliah:
+diajarkan pada Slide 30-38 materi kuliah:
 1. Pemodelan Aljabar Linier Matriks Permutasi Ortogonal (P_sigma * P_sigma^T = I).
 2. Kriptanalisis Kuantitatif: Index of Coincidence (IoC) William F. Friedman.
-3. Simulasi Transposisi Ganda (Double Transposition) Perang Dunia II.
+3. Double Transposition (Transposisi Ganda) — Kriptografi Perang Dunia II.
 4. Relevansi Kriptografi Modern: Transformasi ShiftRows AES & Permutation Box DES.
 =============================================================================
 """
@@ -177,7 +177,117 @@ def diagnose_ciphertext_type(text: str) -> Tuple[float, str]:
 
 
 # =============================================================================
-# BAGIAN 3: SIMULASI MODERN — AES SHIFTROWS & DES P-BOX
+# BAGIAN 3: DOUBLE TRANSPOSITION (TRANSPOSISI GANDA - PERANG DUNIA II)
+# =============================================================================
+
+def double_transposition_encrypt(
+    plaintext: str, key1: str, key2: str, verbose: bool = False
+) -> str:
+    """
+    =============================================================================
+    FUNGSI / METODE : double_transposition_encrypt
+    KATEGORI        : Enkripsi Transposisi Berlapis (Perang Dunia II)
+    DASAR TEORI     : Double Transposition menerapkan cipher columnar transposisi
+                      DUA KALI berturut-turut dengan kunci yang berbeda. Teknik ini
+                      digunakan oleh agen Sekutu dalam PD II karena jauh lebih sulit
+                      dipecahkan secara kriptanalisis dibanding transposisi tunggal.
+                      Putaran pertama mengacak posisi, putaran kedua mengacak hasil
+                      pengacakan pertama sehingga pola frekuensi posisi semakin sulit
+                      dideteksi.
+    -----------------------------------------------------------------------------
+    PARAMETER:
+        - plaintext (str): Pesan asli.
+        - key1 (str): Kunci putaran pertama.
+        - key2 (str): Kunci putaran kedua (berbeda dari key1 untuk keamanan maksimal).
+        - verbose (bool): Jika True, tampilkan proses tiap putaran.
+
+    OUTPUT / RETURN:
+        - str: Ciphertext hasil dua kali transposisi.
+
+    CONTOH PENGGUNAAN:
+        >>> ct = double_transposition_encrypt("ATTACKATDAWN", "KEY", "CODE")
+    =============================================================================
+    """
+    from myszkowski import myszkowski_encrypt
+    from rail_fence import rail_fence_encrypt
+
+    clean_k1 = clean_text(key1)
+    clean_k2 = clean_text(key2)
+    if len(clean_k2) < 2:
+        raise ValueError("Kunci kedua harus minimal 2 karakter (digunakan sebagai jumlah rel Rail Fence).")
+
+    # Putaran 1: Myszkowski (keyword columnar)
+    if verbose:
+        print(f"\n  {BOLD}{PURPLE}=== DOUBLE TRANSPOSITION — PUTARAN 1 (Myszkowski) ==={RESET}")
+        print(f"  Kunci Putaran 1 : {BOLD}{clean_k1}{RESET}")
+
+    ct1, _ = myszkowski_encrypt(plaintext, clean_k1, verbose=verbose)
+
+    # Putaran 2: Rail Fence (kunci = panjang kunci kedua sebagai jumlah rel)
+    num_rails = len(clean_k2)
+    if verbose:
+        print(f"\n  {BOLD}{PURPLE}=== DOUBLE TRANSPOSITION — PUTARAN 2 (Rail Fence n={num_rails}) ==={RESET}")
+        print(f"  Kunci Putaran 2 : {BOLD}{clean_k2}{RESET} (panjang={num_rails} rel)")
+        print(f"  Input Putaran 2 : {BOLD}{ct1}{RESET}")
+
+    ct2, _ = rail_fence_encrypt(ct1, num_rails, verbose=verbose)
+
+    if verbose:
+        print(f"\n  {BOLD}{EMERALD}HASIL AKHIR DOUBLE TRANSPOSITION :{RESET} {BOLD}{ct2}{RESET}\n")
+
+    return ct2
+
+
+def double_transposition_decrypt(
+    ciphertext: str, key1: str, key2: str, verbose: bool = False
+) -> str:
+    """
+    =============================================================================
+    FUNGSI / METODE : double_transposition_decrypt
+    KATEGORI        : Dekripsi Transposisi Berlapis
+    DASAR TEORI     : Pemulihan dilakukan dengan membalik urutan kunci:
+                      pertama dekripsi menggunakan key2 (membalik putaran 2),
+                      lalu dekripsi menggunakan key1 (membalik putaran 1).
+    -----------------------------------------------------------------------------
+    PARAMETER:
+        - ciphertext (str): Teks terenkripsi ganda.
+        - key1 (str): Kunci putaran pertama (sama dengan saat enkripsi).
+        - key2 (str): Kunci putaran kedua (sama dengan saat enkripsi).
+        - verbose (bool): Jika True, tampilkan proses tiap putaran.
+
+    OUTPUT / RETURN:
+        - str: Plaintext hasil pemulihan dua kali dekripsi.
+    =============================================================================
+    """
+    from myszkowski import myszkowski_decrypt
+    from rail_fence import rail_fence_decrypt
+
+    clean_k1 = clean_text(key1)
+    clean_k2 = clean_text(key2)
+    num_rails = len(clean_k2)
+
+    # Balik putaran 2 dulu: Rail Fence decrypt
+    if verbose:
+        print(f"\n  {BOLD}{PURPLE}=== DOUBLE TRANSPOSITION DEKRIPSI — PUTARAN 2 (Rail Fence n={num_rails}) ==={RESET}")
+        print(f"  Kunci Putaran 2 (balik) : {BOLD}{clean_k2}{RESET} ({num_rails} rel)")
+
+    mid, _ = rail_fence_decrypt(ciphertext, num_rails, verbose=verbose)
+
+    # Balik putaran 1: Myszkowski decrypt
+    if verbose:
+        print(f"\n  {BOLD}{PURPLE}=== DOUBLE TRANSPOSITION DEKRIPSI — PUTARAN 1 (Myszkowski) ==={RESET}")
+        print(f"  Kunci Putaran 1 : {BOLD}{clean_k1}{RESET}")
+
+    plaintext, _ = myszkowski_decrypt(mid, clean_k1, verbose=verbose)
+
+    if verbose:
+        print(f"\n  {BOLD}{EMERALD}HASIL DEKRIPSI DOUBLE TRANSPOSITION :{RESET} {BOLD}{plaintext}{RESET} ✓\n")
+
+    return plaintext
+
+
+# =============================================================================
+# BAGIAN 4: SIMULASI MODERN — AES SHIFTROWS & DES P-BOX
 # =============================================================================
 
 def aes_shift_rows(state_matrix: List[List[str]]) -> List[List[str]]:

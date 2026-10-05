@@ -144,6 +144,14 @@ def myszkowski_encrypt(plaintext: str, keyword: str, verbose: bool = False) -> T
     clean_p = clean_text(plaintext)
     clean_k = clean_text(keyword)
     num_cols = len(clean_k)
+
+    if len(clean_p) == 0:
+        raise ValueError("Plaintext tidak boleh kosong!")
+    if num_cols > len(clean_p):
+        raise ValueError(
+            f"Panjang kunci ({num_cols} huruf) tidak boleh melebihi panjang plaintext bersih "
+            f"({len(clean_p)} huruf). Ini akan menghasilkan baris yang tidak lengkap."
+        )
     
     # Lakukan padding dummy 'X'
     padded_p, pad_count = pad_text(clean_p, num_cols, 'X')

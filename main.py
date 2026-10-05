@@ -32,8 +32,10 @@ from myszkowski import myszkowski_encrypt, myszkowski_decrypt
 from turning_grille import turning_grille_encrypt, turning_grille_decrypt
 from advanced import (
     create_permutation_matrix, transpose_matrix, apply_permutation,
-    calculate_index_of_coincidence, diagnose_ciphertext_type,
-    aes_shift_rows, aes_inv_shift_rows, des_pbox_permute
+    calculate_index_of_coincidence, calculate_letter_frequencies,
+    diagnose_ciphertext_type,
+    aes_shift_rows, aes_inv_shift_rows, des_pbox_permute,
+    double_transposition_encrypt, double_transposition_decrypt
 )
 
 
@@ -170,7 +172,7 @@ def interactive_simulation():
         print("  2. Rail Fence Cipher (Zig-Zag Transposition)")
         print("  3. Route Cipher (Clockwise Inward Spiral)")
         print("  4. Myszkowski Cipher (Keyword Tie-Breaker Ranking)")
-        print("  5. Turning Grille (Fleissner Grille 4x4 Stencil)")
+        print("  5. Turning Grille (Fleissner Grille N x N Stencil - Ukuran Bebas)")
         print("  0. Kembali ke Menu Utama")
         
         choice = input(f"\n{BOLD}Pilihan Anda (0-5): {RESET}").strip()
@@ -201,12 +203,19 @@ def interactive_simulation():
                 print(f"{ROSE}{BOLD}Error:{RESET} {e}")
 
         elif choice == '3':
-            print(f"\n{BOLD}{CYAN}=== SIMULASI ROUTE CIPHER (SPIRAL 4x4) ==={RESET}")
+            print(f"\n{BOLD}{CYAN}=== SIMULASI ROUTE CIPHER (SPIRAL) ==={RESET}")
             pt = input(f"Masukkan Plaintext (default 'SERANGANDIBAWAH'): ").strip() or "SERANGANDIBAWAH"
+            r_str = input(f"Masukkan jumlah Baris / Rows (default 4): ").strip() or "4"
+            c_str = input(f"Masukkan jumlah Kolom / Cols (default 4): ").strip() or "4"
             try:
-                ct, _ = route_cipher_encrypt(pt, 4, 4, verbose=True)
-                dec, _ = route_cipher_decrypt(ct, 4, 4, verbose=True)
-            except Exception as e:
+                r_val = int(r_str)
+                c_val = int(c_str)
+                if r_val < 2 or c_val < 2:
+                    print(f"{ROSE}Ukuran baris dan kolom harus minimal 2!{RESET}")
+                else:
+                    ct, _ = route_cipher_encrypt(pt, r_val, c_val, verbose=True)
+                    dec, _ = route_cipher_decrypt(ct, r_val, c_val, verbose=True)
+            except ValueError as e:
                 print(f"{ROSE}{BOLD}Error:{RESET} {e}")
 
         elif choice == '4':
@@ -220,11 +229,16 @@ def interactive_simulation():
                 print(f"{ROSE}{BOLD}Error:{RESET} {e}")
 
         elif choice == '5':
-            print(f"\n{BOLD}{CYAN}=== SIMULASI TURNING GRILLE (FLEISSNER 4x4) ==={RESET}")
-            pt = input(f"Masukkan Plaintext 16 huruf (default 'SENDTROOPSASAPXX'): ").strip() or "SENDTROOPSASAPXX"
+            print(f"\n{BOLD}{CYAN}=== SIMULASI TURNING GRILLE (FLEISSNER N x N) ==={RESET}")
+            pt = input(f"Masukkan Plaintext (default 'SENDTROOPSASAPXX'): ").strip() or "SENDTROOPSASAPXX"
+            n_str = input(f"Masukkan Ukuran Grid N (harus genap >= 4, default 4): ").strip() or "4"
             try:
-                ct, _ = turning_grille_encrypt(pt, verbose=True)
-                dec, _ = turning_grille_decrypt(ct, verbose=True)
+                n_val = int(n_str)
+                if n_val < 2 or n_val % 2 != 0:
+                    print(f"{ROSE}Ukuran grid N harus bilangan genap (4, 6, 8, dst)!{RESET}")
+                else:
+                    ct, _ = turning_grille_encrypt(pt, n=n_val, verbose=True)
+                    dec, _ = turning_grille_decrypt(ct, n=n_val, verbose=True)
             except Exception as e:
                 print(f"{ROSE}{BOLD}Error:{RESET} {e}")
                 
@@ -249,12 +263,28 @@ def cryptanalysis_lab():
     sample_default = "RKSITGPAORFKAISKLKDAAHANFNODSAIDRASITSEMEKAMAAANMNODRE"
     text = input(f"Masukkan Ciphertext yang akan dianalisis (default sampel transposisi):\n> ").strip() or sample_default
     
-    ic, diagnosis = diagnose_ciphertext_type(text)
-    print(f"\n  Panjang Teks     : {len(clean_text(text))} karakter")
+    clean_t = clean_text(text)
+    ic, diagnosis = diagnose_ciphertext_type(clean_t)
+    freqs = calculate_letter_frequencies(clean_t)
+    total_chars = len(clean_t)
+
+    print(f"\n  Panjang Teks     : {total_chars} karakter")
     print(f"  Nilai Skor IC    : {BOLD}{AMBER}{ic:.5f}{RESET}")
     print(f"  Analisis Sistem  : {BOLD}{EMERALD}{diagnosis}{RESET}\n")
 
-    print(f"{BOLD}{PURPLE}--- Nilai Rujukan Teori Kriptanalisis ---{RESET}")
+    # Tabel distribusi frekuensi huruf A-Z
+    print(f"{BOLD}{PURPLE}--- Tabel Distribusi Frekuensi Huruf (A – Z) ---{RESET}")
+    print(f"  {'Huruf':<6} {'Frek':>5} {'Persentase':>12} {'Bar Grafik'}")
+    print(f"  {CYAN}{'-'*55}{RESET}")
+    sorted_freqs = sorted(freqs.items(), key=lambda x: x[0])  # urut A-Z
+    for ch, cnt in sorted_freqs:
+        pct = (cnt / total_chars * 100) if total_chars > 0 else 0
+        bar_len = int(pct / 2)  # skala: 1 blok = 2%
+        bar = f"{EMERALD}{'█' * bar_len}{RESET}" if cnt > 0 else f"{DIM}{'·' * 1}{RESET}"
+        print(f"  {BOLD}{ch}{RESET}      {cnt:>4}   {pct:>10.2f}%  {bar}")
+    print(f"  {CYAN}{'-'*55}{RESET}")
+
+    print(f"\n{BOLD}{PURPLE}--- Nilai Rujukan Teori Kriptanalisis ---{RESET}")
     print("  * Bahasa Indonesia / Inggris : ~ 0.065 - 0.068 (Puncak Distribusi Huruf)")
     print("  * Cipher Transposisi         : ~ 0.065 - 0.068 (Frekuensi Simbol Tidak Berubah!)")
     print("  * Substitusi Polialfabetik   : ~ 0.038 - 0.042 (Distribusi Diratakan)")

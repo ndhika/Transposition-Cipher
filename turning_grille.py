@@ -84,6 +84,42 @@ def validate_fleissner_stencil(initial_holes: List[Tuple[int, int]], n: int = 4)
     return len(all_visited) == (n * n)
 
 
+def generate_fleissner_holes(n: int = 4) -> List[Tuple[int, int]]:
+    """
+    =============================================================================
+    FUNGSI / METODE : generate_fleissner_holes
+    KATEGORI        : Pembangkit Kunci Stensil Otomatis
+    DASAR TEORI     : Membangkitkan himpunan (N^2 / 4) koordinat lubang awal pada posisi 0°
+                      secara otomatis untuk grid persegi genap N x N berapa pun (N >= 4).
+                      Setiap sel kuadran dipartisi ke orbit rotasinya untuk menjamin
+                      100% bebas tabrakan (disjoint partition) dan menutup seluruh grid.
+    -----------------------------------------------------------------------------
+    PARAMETER:
+        - n (int): Dimensi grid genap (misal 4, 6, 8, 10, dst). Default 4.
+    
+    OUTPUT / RETURN:
+        - List[Tuple[int, int]]: Daftar koordinat (r, c) lubang stensil valid.
+    =============================================================================
+    """
+    if n % 2 != 0 or n < 2:
+        raise ValueError(f"Ukuran grid Fleissner N harus bilangan genap >= 2, diterima: {n}")
+    
+    half = n // 2
+    holes = []
+    for r in range(half):
+        for c in range(half):
+            orbit = [
+                (r, c),
+                (c, n - 1 - r),
+                (n - 1 - r, n - 1 - c),
+                (n - 1 - c, r)
+            ]
+            choice_idx = (r + 2 * c) % 4
+            holes.append(orbit[choice_idx])
+            
+    return sorted(holes, key=lambda x: (x[0], x[1]))
+
+
 # =============================================================================
 # FUNGSI 3: turning_grille_encrypt
 # =============================================================================
@@ -98,38 +134,32 @@ def turning_grille_encrypt(
     FUNGSI / METODE : turning_grille_encrypt
     KATEGORI        : Algoritma Enkripsi Transposisi Stensil Fleissner
     DASAR TEORI     : Menuliskan segmen karakter plaintext ke dalam lubang stensil
-                      pada posisi 0°, 90°, 180°, dan 270°. Setelah seluruh 16 sel
+                      pada posisi 0°, 90°, 180°, dan 270°. Setelah seluruh N^2 sel
                       terisi penuh, ciphertext diekstraksi dengan membaca grid
                       secara normal baris per baris.
     -----------------------------------------------------------------------------
     PARAMETER:
-        - plaintext (str): Pesan asli yang akan dienkripsi (maksimal n^2 huruf).
+        - plaintext (str): Pesan asli yang akan dienkripsi.
         - initial_holes (List[Tuple[int, int]], opsional): Koordinat lubang 0°.
-          Default: [(0,0), (0,1), (0,2), (1,1)] sesuai standar materi kuliah.
-        - n (int): Ukuran grid persegi. Default bernilai 4 (16 sel).
+          Jika None dan n=4, menggunakan standar slide [(0,0), (0,1), (0,2), (1,1)].
+          Jika None dan n!=4, dibangkitkan otomatis via generate_fleissner_holes(n).
+        - n (int): Ukuran grid persegi genap (N x N). Default bernilai 4.
         - verbose (bool, opsional): Jika True, menampilkan visualisasi 4 rotasi.
     
     OUTPUT / RETURN:
         - Tuple[str, List[List[str]]]:
             1. Ciphertext hasil penggabungan pembacaan baris per baris.
             2. Matriks 2D gabungan akhir (N x N).
-    
-    KOMPLEKSITAS:
-        - Waktu : O(N^2)
-        - Ruang : O(N^2)
-        
-    CONTOH PENGGUNAAN:
-        >>> ct, _ = turning_grille_encrypt("SENDTROOPSASAPXX")
-        >>> ct
-        'SENTADROPXPOXSAS'
     =============================================================================
     """
     if initial_holes is None:
-        # Default lubang standar kuliah Udinus Kelompok 2
-        initial_holes = [(0, 0), (0, 1), (0, 2), (1, 1)]
+        if n == 4:
+            initial_holes = [(0, 0), (0, 1), (0, 2), (1, 1)]
+        else:
+            initial_holes = generate_fleissner_holes(n)
 
     if not validate_fleissner_stencil(initial_holes, n):
-        raise ValueError("Lubang stensil awal tidak valid matematis (terjadi tabrakan rotasi).")
+        raise ValueError(f"Lubang stensil awal tidak valid matematis untuk grid {n}x{n}.")
 
     clean_p = clean_text(plaintext)
     total_cells = n * n
@@ -138,7 +168,7 @@ def turning_grille_encrypt(
     holes_per_rotation = total_cells // 4
 
     if verbose:
-        print_step_header(1, "Inisialisasi Stensil Fleissner 4x4", 
+        print_step_header(1, f"Inisialisasi Stensil Fleissner {n}x{n}", 
                           f"Dimensi {n}x{n} ({total_cells} sel) | Lubang per rotasi = {holes_per_rotation}")
         print(f"  Plaintext Bersih : {BOLD}{clean_p}{RESET}")
         if pad_count > 0:
@@ -232,7 +262,10 @@ def turning_grille_decrypt(
     =============================================================================
     """
     if initial_holes is None:
-        initial_holes = [(0, 0), (0, 1), (0, 2), (1, 1)]
+        if n == 4:
+            initial_holes = [(0, 0), (0, 1), (0, 2), (1, 1)]
+        else:
+            initial_holes = generate_fleissner_holes(n)
 
     clean_c = clean_text(ciphertext)
     total_cells = n * n
@@ -253,7 +286,7 @@ def turning_grille_decrypt(
         grid.append(row)
 
     if verbose:
-        print_step_header(1, "Pemetaan Ciphertext ke Grid 4x4", 
+        print_step_header(1, f"Pemetaan Ciphertext ke Grid {n}x{n}", 
                           "Menyusun ciphertext mendatar untuk siap ditutup stensil berputar")
         col_headers = [f"K{c}" for c in range(n)]
         row_labels = [f"B{r}" for r in range(n)]

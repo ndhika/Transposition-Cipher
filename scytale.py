@@ -70,6 +70,12 @@ def scytale_encrypt(plaintext: str, key_d: int, verbose: bool = False) -> Tuple[
     if L == 0:
         return "", []
 
+    if key_d > L:
+        raise ValueError(
+            f"Kunci diameter d ({key_d}) tidak boleh melebihi panjang plaintext ({L} karakter). "
+            f"Ini akan menghasilkan baris-baris kosong yang tidak berguna secara kriptografis."
+        )
+
     # Hitung jumlah kolom yang diperlukan
     cols = math.ceil(L / key_d)
     total_cells = key_d * cols

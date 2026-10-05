@@ -14,9 +14,10 @@
 
 ## 📌 Ringkasan Proyek
 
-Repositori folder `python/` ini berisi implementasi perangkat lunak berbasis **Python 3** untuk menyimulasikan seluruh materi perkuliahan yang tercantum pada **Slide Presentasi Transposition Cipher (38 Slide)**.
+Repositori ini berisi implementasi perangkat lunak berbasis **Python 3** untuk menyimulasikan seluruh materi perkuliahan yang tercantum pada **Slide Presentasi Transposition Cipher (38 Slide)**.
 
 Kode ditulis dengan standar rekayasa perangkat lunak profesional:
+- **Fleksibilitas Ukuran & Parameter Dinamis**: Seluruh 5 varian *cipher* mendukung panjang teks masukan berapa pun dan parameter ukuran bebas (diameter, jumlah rel, dimensi grid $R \times C$, kata kunci sembarang, serta ukuran stensil Fleissner $N \times N$ genap berapa saja).
 - **Batch Documentation Headers**: Setiap modul dan fungsi dilengkapi blok dokumentasi terstruktur yang mencakup Kategori, Dasar Teori Kriptografis, Formula Matematika, Penjelasan Parameter, Tipe Kembalian (Type Hints), Kompleksitas Waktu & Ruang ($O$), serta Contoh Penggunaan.
 - **Tanpa Dependency Eksternal**: 100% menggunakan Python Standard Library (`math`, `sys`, `typing`, `time`), sehingga dapat langsung dijalankan di semua sistem operasi (Windows, Linux, macOS) tanpa perlu instalasi `pip`.
 - **Dukungan Terminal UTF-8 & ANSI Safe**: Menampilkan visualisasi matriks 2D, rel zig-zag, rute spiral, dan stensil 4 rotasi dengan warna highlight beresolusi tinggi.
@@ -26,15 +27,15 @@ Kode ditulis dengan standar rekayasa perangkat lunak profesional:
 ## 🗂️ Struktur Direktori
 
 ```text
-d:/tugas sekolah/kuliah Udinus/kripto/python/
+.
 ├── __init__.py           # Inisialisasi paket dan eksposur modul publik
 ├── utils.py              # Sanitasi teks alfabetis, padding dummy 'X', pewarnaan ANSI, & visualizer matriks ASCII
-├── scytale.py            # Varian 1: Scytale Cipher (Tongkat Silinder Sparta Kuno)
-├── rail_fence.py         # Varian 2: Rail Fence Cipher (Zig-Zag Gelombang Periodik)
-├── route_cipher.py       # Varian 3: Route Cipher (Lintasan Spiral Clockwise 4x4)
-├── myszkowski.py         # Varian 4: Myszkowski Cipher (Aturan Huruf Kunci Kembar / Tie-Breaker)
-├── turning_grille.py     # Varian 5: Turning Grille (Fleissner Grille 4x4 Stensil Berputar)
-├── advanced.py           # Teori Lanjutan: Matriks Permutasi Ortogonal (P*P^T=I), IoC, AES ShiftRows, DES P-Box
+├── scytale.py            # Varian 1: Scytale Cipher (Silinder Sparta Kuno - Diameter d & Baris Dinamis)
+├── rail_fence.py         # Varian 2: Rail Fence Cipher (Zig-Zag Gelombang Periodik - n Rel Bebas)
+├── route_cipher.py       # Varian 3: Route Cipher (Lintasan Spiral Clockwise - Dimensi R x C Bebas)
+├── myszkowski.py         # Varian 4: Myszkowski Cipher (Keyword Tie-Breaker Ranking - Kata Kunci Bebas)
+├── turning_grille.py     # Varian 5: Turning Grille (Fleissner Grille - Stensil N x N Genap Bebas)
+├── advanced.py           # Teori Lanjutan: Double Transposition, Matriks Permutasi Ortogonal (P*P^T=I), IoC, Frekuensi A-Z, AES/DES
 ├── main.py               # Master CLI Interaktif & Suite Pengujian Otomatis
 └── README.md             # Buku Panduan Penggunaan & Dokumentasi
 ```
@@ -95,6 +96,20 @@ python advanced.py
 | 5 | **Turning Grille**| `SENDTROOPSASAPXX` | Stensil 4 Rotasi | `SENTADROPXPOXSAS` | **PULIH SEMPURNA** |
 | 6 | **Aljabar Linier**| `['A', 'B', 'C', 'D']` | Matriks $P_\sigma$ | $P_\sigma \cdot P_\sigma^T = I$ (Ortogonal) | **PULIH SEMPURNA** |
 | 7 | **Kriptanalisis**| Sampel Teks Panjang | Uji IoC Friedman | $IC \approx 0.067 - 0.068$ (Transposisi Terbukti) | **TERDIAGNOSA AKURAT** |
+
+---
+
+## ⚙️ Fleksibilitas Ukuran & Parameter Dinamis
+
+Seluruh varian dalam proyek ini tidak terpaku pada satu ukuran statis, melainkan menyesuaikan secara dinamis berdasarkan inputan pengguna:
+
+| Varian Cipher | Parameter Ukuran | Mekanisme Fleksibilitas & Auto-Fit |
+| :--- | :--- | :--- |
+| **Scytale** | Diameter $d$ | Jumlah baris $R = \lceil L / d \rceil$ dihitung otomatis untuk $d \ge 1$ berapa pun. |
+| **Rail Fence** | Kedalaman Rel $K$ | Gelombang *zig-zag* menyesuaikan periodisitas untuk $K \ge 2$ berapa pun. |
+| **Route Cipher** | Dimensi Grid $R \times C$ | Pengguna bebas menentukan baris $R$ & kolom $C$ (misal $3 \times 5, 4 \times 7, 6 \times 6$). Lintasan spiral dan visualisasi terminal otomatis diperbarui. |
+| **Myszkowski** | Kata Kunci (*Keyword*) | Jumlah kolom $C = \text{len(key)}$ dan baris $R = \lceil L / C \rceil$ menyesuaikan kata kunci sembarang. |
+| **Turning Grille** | Grid Stensil $N \times N$ | Mendukung grid genap $N \times N$ berapa pun ($N=4, 6, 8, 10, \dots$). Dilengkapi `generate_fleissner_holes(n)` yang otomatis membangkitkan stensil valid 100% bebas tabrakan rotasi. |
 
 ---
 

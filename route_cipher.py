@@ -162,7 +162,7 @@ def route_cipher_encrypt(plaintext: str, rows: int = 4, cols: int = 4, verbose: 
         for step_idx, (r, c) in enumerate(spiral_coords):
             step_grid[r][c] = step_idx + 1
         
-        print("  Peta Urutan Penelusuran Langkah 1 s.d. 16:")
+        print(f"  Peta Urutan Penelusuran Langkah 1 s.d. {total_cells}:")
         print(render_matrix(step_grid, col_headers=col_headers, row_labels=row_labels, color_code=PURPLE))
         
         print(f"\n  {EMERALD}{BOLD}HASIL CIPHERTEXT ROUTE CIPHER :{RESET} {BOLD}{ciphertext}{RESET}\n")
@@ -222,7 +222,7 @@ def route_cipher_decrypt(ciphertext: str, rows: int = 4, cols: int = 4, verbose:
         matrix[r][c] = clean_c[char_idx]
 
     if verbose:
-        print_step_header(1, "Injeksi Ciphertext ke Jalur Spiral Grid 4x4", 
+        print_step_header(1, f"Injeksi Ciphertext ke Jalur Spiral Grid {rows}x{cols}", 
                           "Memasukkan karakter sandi mengikuti rute melingkar ke dalam")
         col_headers = [f"K{c}" for c in range(cols)]
         row_labels = [f"B{r}" for r in range(rows)]

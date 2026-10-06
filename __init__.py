@@ -8,7 +8,7 @@ Dokumentasi Batch:
 Paket simulasi komprehensif 5 Varian Inti Transposition Cipher:
 1. Scytale Cipher (Silinder Sparta Kuno)
 2. Rail Fence Cipher (Zig-Zag Periodic Wave)
-3. Route Cipher (Clockwise Inward Spiral)
+3. Route Cipher (Spiral Masuk CW & CCW)
 4. Myszkowski Cipher (Keyword Tie-Breaker Ranking)
 5. Turning Grille (Fleissner Grille Rotating Stencil)
 =============================================================================

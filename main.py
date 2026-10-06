@@ -79,13 +79,18 @@ def run_automated_suite():
     ok2 = (ct2 == "KTARPORFIGI" and dec2 == pt2)
     results.append(("Varian 2: Rail Fence (n=3)", "KTARPORFIGI", ct2, ok2))
 
-    # 3. Route Cipher
-    print(f"{BOLD}[3/5] Menguji Varian 3: Route Cipher Spiral (4x4)...{RESET}")
+    # 3. Route Cipher (CW & CCW)
+    print(f"{BOLD}[3/5] Menguji Varian 3: Route Cipher Spiral (4x4 CW & CCW)...{RESET}")
     pt3 = "SERANGANDIBAWAH"
-    ct3, _ = route_cipher_encrypt(pt3, 4, 4, verbose=False)
-    dec3, _ = route_cipher_decrypt(ct3, 4, 4, verbose=False)
-    ok3 = (ct3 == "SERANAXHAWDNGABI" and dec3 == "SERANGANDIBAWAHX")
-    results.append(("Varian 3: Route Spiral (4x4)", "SERANAXHAWDNGABI", ct3, ok3))
+    ct3_cw, _ = route_cipher_encrypt(pt3, 4, 4, direction='cw', verbose=False)
+    dec3_cw, _ = route_cipher_decrypt(ct3_cw, 4, 4, direction='cw', verbose=False)
+    ok3_cw = (ct3_cw == "SERANAXHAWDNGABI" and dec3_cw == "SERANGANDIBAWAHX")
+    results.append(("Varian 3a: Route Spiral CW", "SERANAXHAWDNGABI", ct3_cw, ok3_cw))
+
+    ct3_ccw, _ = route_cipher_encrypt(pt3, 4, 4, direction='ccw', verbose=False)
+    dec3_ccw, _ = route_cipher_decrypt(ct3_ccw, 4, 4, direction='ccw', verbose=False)
+    ok3_ccw = (ct3_ccw == "SNDWAHXANAREGIBA" and dec3_ccw == "SERANGANDIBAWAHX")
+    results.append(("Varian 3b: Route Spiral CCW", "SNDWAHXANAREGIBA", ct3_ccw, ok3_ccw))
 
     # 4. Myszkowski
     print(f"{BOLD}[4/5] Menguji Varian 4: Myszkowski Cipher...{RESET}")
@@ -139,7 +144,7 @@ def interactive_simulation():
         print(f"\n{BOLD}{PURPLE}--- PILIH VARIAN CIPHER UNTUK SIMULASI PRAKTIK ---{RESET}")
         print("  1. Scytale Cipher (Tongkat Silinder Sparta)")
         print("  2. Rail Fence Cipher (Sandi Gelombang Zig-Zag)")
-        print("  3. Route Cipher (Sandi Spiral Masuk Searah Jarum Jam)")
+        print("  3. Route Cipher (Sandi Spiral CW & CCW)")
         print("  4. Myszkowski Cipher (Sandi Ranking Kunci Huruf Kembar)")
         print("  5. Turning Grille (Fleissner Grille Stensil Berputar)")
         print("  0. Kembali ke Menu Utama")
@@ -172,18 +177,23 @@ def interactive_simulation():
                 print(f"{ROSE}{BOLD}Error:{RESET} {e}")
 
         elif choice == '3':
-            print(f"\n{BOLD}{CYAN}=== SIMULASI ROUTE CIPHER (SPIRAL) ==={RESET}")
+            print(f"\n{BOLD}{CYAN}=== SIMULASI ROUTE CIPHER (SPIRAL CW & CCW) ==={RESET}")
             pt = input(f"Masukkan Plaintext (default 'SERANGANDIBAWAH'): ").strip() or "SERANGANDIBAWAH"
             r_str = input(f"Masukkan jumlah Baris / Rows (default 4): ").strip() or "4"
             c_str = input(f"Masukkan jumlah Kolom / Cols (default 4): ").strip() or "4"
+            print(f"\nPilih Alur Penelusuran Spiral:")
+            print("  1. Searah Jarum Jam (Clockwise / CW - Default)")
+            print("  2. Berlawanan Arah Jarum Jam (Counter-Clockwise / CCW)")
+            dir_choice = input(f"Pilihan arah (1/2, default 1): ").strip() or "1"
+            direction = 'ccw' if dir_choice == '2' else 'cw'
             try:
                 r_val = int(r_str)
                 c_val = int(c_str)
                 if r_val < 2 or c_val < 2:
                     print(f"{ROSE}Ukuran baris dan kolom harus minimal 2!{RESET}")
                 else:
-                    ct, _ = route_cipher_encrypt(pt, r_val, c_val, verbose=True)
-                    dec, _ = route_cipher_decrypt(ct, r_val, c_val, verbose=True)
+                    ct, _ = route_cipher_encrypt(pt, r_val, c_val, direction=direction, verbose=True)
+                    dec, _ = route_cipher_decrypt(ct, r_val, c_val, direction=direction, verbose=True)
             except ValueError as e:
                 print(f"{ROSE}{BOLD}Error:{RESET} {e}")
 

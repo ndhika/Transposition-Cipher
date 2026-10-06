@@ -105,10 +105,12 @@
 **[AKSI]**: Buka `route_cipher.py`.
 
 **[BICARA]**:
-> *"Varian ketiga adalah **Route Cipher** dengan rute Spiral Searah Jarum Jam (*Clockwise Inward Spiral*).*
-> * **Konsep**: Plaintext ditulis mendatar ke dalam grid berukuran baris $\times$ kolom.
-> * **Enkripsi**: Huruf diekstraksi mengikuti jalur melingkar spiral, mulai dari sudut kiri-atas $(0,0)$, bergerak ke kanan, ke bawah, ke kiri, lalu ke atas menuju pusat matriks.
-> * **Dekripsi**: Ciphertext dimasukkan kembali mengikuti jalur spiral yang sama, lalu pesan asli dibaca secara normal baris demi baris dari kiri ke kanan."*
+> *"Varian ketiga adalah **Route Cipher** dengan rute Spiral Geometris. Pada program kami, kami mendukung dua variasi arah alur spiral:*
+> * 1. **Clockwise (CW / Searah Jarum Jam - Standar Slide)**: Dari $(0,0)$, melangkah ke kanan $\rightarrow$ ke bawah $\downarrow$ ke kiri $\leftarrow$ ke atas $\uparrow$ lalu melingkar spiral ke pusat matriks.
+> * 2. **Counter-Clockwise (CCW / Berlawanan Arah Jarum Jam)**: Dari $(0,0)$, melangkah ke bawah $\downarrow$ ke kanan $\rightarrow$ ke atas $\uparrow$ ke kiri $\leftarrow$ lalu melingkar spiral ke pusat matriks.
+> * **Konsep**: Plaintext ditulis mendatar baris demi baris ke dalam grid $R \times C$.
+> * **Enkripsi**: Huruf diekstraksi mengikuti alur spiral pilihan (CW atau CCW).
+> * **Dekripsi**: Ciphertext dimasukkan kembali mengikuti alur spiral yang sama persis, lalu pesan asli dibaca secara normal mendatar baris demi baris."*
 
 ---
 

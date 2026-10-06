@@ -59,7 +59,7 @@ MENU UTAMA DEMO KRIPTOGRAFI:
 | :--- | :--- | :--- | :--- |
 | **Scytale** | $d \times m$ Cylinder Grid | Rod Diameter $d$ (Rows) | Ancient Spartan parchment wrapped around a wooden rod. Written horizontally, extracted vertically. |
 | **Rail Fence** | Triangular Zig-Zag Wave | Rail Depth $n$ | Bounces periodically across $n$ rails with period $T = 2(n - 1)$. Characters extracted rail by rail. |
-| **Route Cipher** | $R \times C$ Dynamic Grid | Clockwise Spiral Route | Text is populated row-by-row and extracted along an inward spiral path starting at $(0,0)$. |
+| **Route Cipher** | $R \times C$ Dynamic Grid | Spiral Route (CW & CCW) | Text is populated row-by-row and extracted along an inward spiral path (Clockwise or Counter-Clockwise). |
 | **Myszkowski** | Columnar Tie-Breaker Grid | Keyword String | Permits repeated keyword letters. Unique ranks read vertically ($\downarrow$); duplicate ranks read horizontally ($\rightarrow$). |
 | **Turning Grille** | $N \times N$ Fleissner Stencil | 4 Collision-Free Rotations | Stencil is rotated 4 times by 90° ($0^\circ, 90^\circ, 180^\circ, 270^\circ$). All $N^2$ cells filled without collision. |
 
@@ -71,7 +71,7 @@ Each cipher adapts dynamically to user inputs:
 
 * **Scytale**: Any rod diameter $d \ge 2$, columns calculated dynamically as $\lceil L / d \rceil$.
 * **Rail Fence**: Any rail depth $n \ge 2$, wave pattern adjusts automatically.
-* **Route Cipher**: Arbitrary row $R$ and column $C$ dimensions (e.g. $3 \times 5, 4 \times 4, 6 \times 6$).
+* **Route Cipher**: Arbitrary row $R$ and column $C$ dimensions with selectable spiral direction (`'cw'` or `'ccw'`).
 * **Myszkowski**: Any keyword with arbitrary length and repeated characters.
 * **Turning Grille**: Any even grid size $N \times N$ ($N = 4, 6, 8, \dots$) with automatic collision-free stencil generation.
 
@@ -102,7 +102,7 @@ Each cipher module is standalone and can be executed independently:
 ```bash
 python scytale.py         # Spartan Scytale demo
 python rail_fence.py      # Rail Fence zig-zag demo
-python route_cipher.py    # Route spiral demo
+python route_cipher.py    # Route spiral CW & CCW demo
 python myszkowski.py      # Myszkowski duplicate-key demo
 python turning_grille.py  # Fleissner 4-rotation stencil demo
 ```
@@ -130,9 +130,11 @@ ct_rf, _ = rail_fence_encrypt("KRIPTOGRAFI", num_rails=3)
 pt_rf, _ = rail_fence_decrypt(ct_rf, num_rails=3)
 # ct_rf -> "KTARPORFIGI", pt_rf -> "KRIPTOGRAFI"
 
-# 3. Route Cipher (Spiral 4x4)
-ct_rt, _ = route_cipher_encrypt("SERANGANDIBAWAH", rows=4, cols=4)
-pt_rt, _ = route_cipher_decrypt(ct_rt, rows=4, cols=4)
+# 3. Route Cipher (Spiral 4x4 CW & CCW)
+ct_cw, _ = route_cipher_encrypt("SERANGANDIBAWAH", rows=4, cols=4, direction='cw')
+pt_cw, _ = route_cipher_decrypt(ct_cw, rows=4, cols=4, direction='cw')
+ct_ccw, _ = route_cipher_encrypt("SERANGANDIBAWAH", rows=4, cols=4, direction='ccw')
+pt_ccw, _ = route_cipher_decrypt(ct_ccw, rows=4, cols=4, direction='ccw')
 
 # 4. Myszkowski Cipher
 ct_my, _ = myszkowski_encrypt("WE ARE DISCOVERED", keyword="TOMATO")
@@ -155,7 +157,8 @@ KASUS UJI SANDI                  | TARGET CIPHER        | HASIL OUTPUT         |
 --------------------------------------------------------------------------------
 Varian 1: Scytale (d=3)          | HMREEILAVPRE         | HMREEILAVPRE         | [ PASS OK ]
 Varian 2: Rail Fence (n=3)       | KTARPORFIGI          | KTARPORFIGI          | [ PASS OK ]
-Varian 3: Route Spiral (4x4)     | SERANAXHAWDNGABI     | SERANAXHAWDNGABI     | [ PASS OK ]
+Varian 3a: Route Spiral CW       | SERANAXHAWDNGABI     | SERANAXHAWDNGABI     | [ PASS OK ]
+Varian 3b: Route Spiral CCW      | SNDWAHXANAREGIBA     | SNDWAHXANAREGIBA     | [ PASS OK ]
 Varian 4: Myszkowski (TOMATO)    | ROXACDEDSEEXWEIVRX   | ROXACDEDSEEXWEIVRX   | [ PASS OK ]
 Varian 5: Turning Grille (4x4)   | SENTADROPXPOXSAS     | SENTADROPXPOXSAS     | [ PASS OK ]
 ================================================================================

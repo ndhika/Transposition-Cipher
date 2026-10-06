@@ -5,9 +5,12 @@ TOPIK           : Kriptografi Klasik — Transposition Cipher
 KELOMPOK        : 2 (Transposition Cipher)
 =============================================================================
 Dokumentasi Batch:
-Paket simulasi komprehensif 5 Varian Inti Transposition Cipher beserta
-Analisis Kriptanalisis (Index of Coincidence), Aljabar Linier Matriks
-Permutasi, dan Relevansi Kriptografi Modern (AES ShiftRows & DES P-Box).
+Paket simulasi komprehensif 5 Varian Inti Transposition Cipher:
+1. Scytale Cipher (Silinder Sparta Kuno)
+2. Rail Fence Cipher (Zig-Zag Periodic Wave)
+3. Route Cipher (Clockwise Inward Spiral)
+4. Myszkowski Cipher (Keyword Tie-Breaker Ranking)
+5. Turning Grille (Fleissner Grille Rotating Stencil)
 =============================================================================
 """
 
@@ -17,36 +20,12 @@ try:
     from .route_cipher import route_cipher_encrypt, route_cipher_decrypt
     from .myszkowski import myszkowski_encrypt, myszkowski_decrypt
     from .turning_grille import turning_grille_encrypt, turning_grille_decrypt
-    from .advanced import (
-        create_permutation_matrix,
-        transpose_matrix,
-        apply_permutation,
-        calculate_index_of_coincidence,
-        diagnose_ciphertext_type,
-        aes_shift_rows,
-        aes_inv_shift_rows,
-        des_pbox_permute,
-        double_transposition_encrypt,
-        double_transposition_decrypt,
-    )
 except (ImportError, ValueError):
     from scytale import scytale_encrypt, scytale_decrypt
     from rail_fence import rail_fence_encrypt, rail_fence_decrypt
     from route_cipher import route_cipher_encrypt, route_cipher_decrypt
     from myszkowski import myszkowski_encrypt, myszkowski_decrypt
     from turning_grille import turning_grille_encrypt, turning_grille_decrypt
-    from advanced import (
-        create_permutation_matrix,
-        transpose_matrix,
-        apply_permutation,
-        calculate_index_of_coincidence,
-        diagnose_ciphertext_type,
-        aes_shift_rows,
-        aes_inv_shift_rows,
-        des_pbox_permute,
-        double_transposition_encrypt,
-        double_transposition_decrypt,
-    )
 
 __all__ = [
     "scytale_encrypt",
@@ -59,14 +38,4 @@ __all__ = [
     "myszkowski_decrypt",
     "turning_grille_encrypt",
     "turning_grille_decrypt",
-    "create_permutation_matrix",
-    "transpose_matrix",
-    "apply_permutation",
-    "calculate_index_of_coincidence",
-    "diagnose_ciphertext_type",
-    "aes_shift_rows",
-    "aes_inv_shift_rows",
-    "des_pbox_permute",
-    "double_transposition_encrypt",
-    "double_transposition_decrypt",
 ]

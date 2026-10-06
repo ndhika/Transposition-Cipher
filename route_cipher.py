@@ -27,7 +27,7 @@ def generate_spiral_coords(rows: int, cols: int, direction: str = 'cw') -> List[
     """
     =============================================================================
     FUNGSI / METODE : generate_spiral_coords
-    KATEGORI        : Geometri Komputasi / Pembangkit Jalur Lintasan
+    KATEGORI        : Geometri Komputasi / Pembuat Jalur Lintasan Spiral
     DASAR TEORI     : Menghasilkan urutan koordinat sel (r, c) yang membentuk lintasan
                       spiral dari terluar menuju terdalam secara siklis dengan 4 batas:
                       top, bottom, left, right. Mendukung arah searah jarum jam (CW)
@@ -207,7 +207,7 @@ def route_cipher_encrypt(
         row_labels = [f"B{r}" for r in range(rows)]
         print(render_matrix(matrix, col_headers=col_headers, row_labels=row_labels, color_code=CYAN))
 
-    # Bangkitkan koordinat spiral dan ambil karakter
+    # Susun koordinat lintasan spiral dan ambil karakter per sel
     spiral_coords = generate_spiral_coords(rows, cols, direction=direction)
     ciphertext_chars = [matrix[r][c] for r, c in spiral_coords]
     ciphertext = "".join(ciphertext_chars)

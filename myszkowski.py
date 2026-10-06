@@ -63,7 +63,7 @@ def get_myszkowski_reading_order(keyword: str, num_rows: int) -> List[Tuple[int,
     """
     =============================================================================
     FUNGSI / METODE : get_myszkowski_reading_order
-    KATEGORI        : Pembangkit Urutan Koordinat Pembacaan
+    KATEGORI        : Penentu Urutan Koordinat Pembacaan
     DASAR TEORI     : Membangun daftar terurut pasangan koordinat sel (baris, kolom)
                       yang diekstraksi berdasarkan aturan pemeringkatan Myszkowski.
                       Fungsi ini bersifat simetris dan esensial untuk enkripsi maupun

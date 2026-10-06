@@ -88,8 +88,8 @@ def generate_fleissner_holes(n: int = 4) -> List[Tuple[int, int]]:
     """
     =============================================================================
     FUNGSI / METODE : generate_fleissner_holes
-    KATEGORI        : Pembangkit Kunci Stensil Otomatis
-    DASAR TEORI     : Membangkitkan himpunan (N^2 / 4) koordinat lubang awal pada posisi 0°
+    KATEGORI        : Penentu Posisi Lubang Stensil Otomatis
+    DASAR TEORI     : Menghitung himpunan (N^2 / 4) koordinat lubang awal pada posisi 0°
                       secara otomatis untuk grid persegi genap N x N berapa pun (N >= 4).
                       Setiap sel kuadran dipartisi ke orbit rotasinya untuk menjamin
                       100% bebas tabrakan (disjoint partition) dan menutup seluruh grid.
@@ -142,7 +142,7 @@ def turning_grille_encrypt(
         - plaintext (str): Pesan asli yang akan dienkripsi.
         - initial_holes (List[Tuple[int, int]], opsional): Koordinat lubang 0°.
           Jika None dan n=4, menggunakan standar slide [(0,0), (0,1), (0,2), (1,1)].
-          Jika None dan n!=4, dibangkitkan otomatis via generate_fleissner_holes(n).
+          Jika None dan n!=4, dibuat otomatis via generate_fleissner_holes(n).
         - n (int): Ukuran grid persegi genap (N x N). Default bernilai 4.
         - verbose (bool, opsional): Jika True, menampilkan visualisasi 4 rotasi.
     

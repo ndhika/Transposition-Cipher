@@ -15,3 +15,6 @@ venv/
 .DS_Store
 Thumbs.db
 *.log
+
+# Presentation Guide (Local only, do not commit to GitHub)
+[Pp][Aa][Nn][Dd][Uu][Aa][Nn]_[Pp][Rr][Ee][Ss][Ee][Nn][Tt][Aa][Ss][Ii].[Mm][Dd]
